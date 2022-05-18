@@ -30,13 +30,13 @@ func GetAppConfig() AppConfig {
 
 func GetDatabaseConfig() DataBaseConfig {
 	return DataBaseConfig{
-		DBName:        osVal("DB_NAME", ""),
-		DBHost:        osVal("DB_HOST", "localhost"),
-		DBPort:        osValToInt("DB_PORT", 5432),
-		DBUser:        osVal("DB_USER", ""),
-		DBPass:        osVal("DB_PASS", ""),
-		DBMaxOpenConn: osValToInt("DB_MAX_OPEN_CONN", 20),
-		DBMaxIdleConn: osValToInt("DB_MAX_OPEN_CONN", 5),
+		DBName:        osVal("POSTGRES_DB", ""),
+		DBHost:        osVal("POSTGRES_HOST", "localhost"),
+		DBPort:        osValToInt("POSTGRES_PORT", 5432),
+		DBUser:        osVal("POSTGRES_USER", ""),
+		DBPass:        osVal("POSTGRES_PASSWORD", ""),
+		DBMaxOpenConn: osValToInt("POSTGRES_MAX_OPEN_CONN", 20),
+		DBMaxIdleConn: osValToInt("POSTGRES_MAX_IDLE_CONN", 5),
 	}
 }
 

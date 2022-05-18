@@ -9,15 +9,15 @@ import (
 
 func TestGetDatabaseConfigConfig(t *testing.T) {
 	// Reset to previous value
-	dbName, _ := os.LookupEnv("DB_NAME")
-	dbuser, _ := os.LookupEnv("DB_USER")
+	dbName, _ := os.LookupEnv("POSTGRES_DB")
+	dbuser, _ := os.LookupEnv("POSTGRES_USER")
 	defer func() {
-		os.Setenv("DB_NAME", dbName)
-		os.Setenv("DB_USER", dbuser)
+		os.Setenv("POSTGRES_DB", dbName)
+		os.Setenv("POSTGRES_USER", dbuser)
 	}()
 
-	os.Setenv("DB_NAME", "test_db_env_name")
-	os.Setenv("DB_USER", "test_db_env_user")
+	os.Setenv("POSTGRES_DB", "test_db_env_name")
+	os.Setenv("POSTGRES_USER", "test_db_env_user")
 
 	conf := GetDatabaseConfig()
 
