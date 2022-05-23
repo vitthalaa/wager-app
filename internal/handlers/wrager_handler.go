@@ -33,25 +33,39 @@ func (h *WagersHandler) Handle(w http.ResponseWriter, req *http.Request) {
 		err = h.doListWager(w, req)
 	default:
 		log.Println("error no 404")
-		writeResponse(w, http.StatusInternalServerError, dto.ErrorResponse{Error: app_errors.ErrNotImplemented})
+		writeResponse(w, http.StatusNotFound, app_errors.ErrorResponse{Code: app_errors.ErrNotImplemented})
 	}
 
 	if err != nil {
 		log.Println("error {}", err)
-		writeResponse(w, http.StatusInternalServerError, dto.ErrorResponse{Error: app_errors.ErrInternalError})
+		writeResponse(w, http.StatusInternalServerError, app_errors.ErrorResponse{Code: app_errors.ErrInternalError})
 	}
 
 }
 
 // doPlaceWager places wager
 func (h *WagersHandler) doPlaceWager(w http.ResponseWriter, req *http.Request) error {
-	writeResponse(w, http.StatusNotImplemented, dto.ErrorResponse{Error: app_errors.ErrNotImplemented})
+	decoder := json.NewDecoder(req.Body)
+	var request dto.PlaceWagerRequest
+	err := decoder.Decode(&request)
+	if err != nil {
+		writeResponse(w, 400, &app_errors.ErrorResponse{Code: app_errors.ErrInvalidBody})
+		return nil
+	}
+
+	wager, err := h.wagerService.PlaceWager(req.Context(), &request)
+	if err != nil {
+		writeErrorResponse(w, err)
+		return nil
+	}
+
+	writeResponse(w, 200, wager)
 	return nil
 }
 
 // doListWager list wager
 func (h *WagersHandler) doListWager(w http.ResponseWriter, req *http.Request) error {
-	writeResponse(w, http.StatusNotImplemented, dto.ErrorResponse{Error: app_errors.ErrNotImplemented})
+	writeResponse(w, http.StatusNotImplemented, app_errors.ErrorResponse{Code: app_errors.ErrNotImplemented})
 	return nil
 }
 
@@ -71,4 +85,13 @@ func writeResponse(w http.ResponseWriter, status int, res interface{}) {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, "internal error")
 	}
+}
+
+func writeErrorResponse(w http.ResponseWriter, err error) {
+	if appErr, ok := err.(*app_errors.ErrorResponse); ok {
+		writeResponse(w, appErr.Status, appErr)
+		return
+	}
+
+	writeResponse(w, http.StatusInternalServerError, app_errors.ErrorResponse{Code: app_errors.ErrInternalError})
 }
