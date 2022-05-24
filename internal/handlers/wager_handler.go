@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/vitthalaa/wager-app/app_errors"
 	"github.com/vitthalaa/wager-app/dto"
@@ -65,7 +67,34 @@ func (h *WagersHandler) doPlaceWager(w http.ResponseWriter, req *http.Request) e
 
 // doListWager list wager
 func (h *WagersHandler) doListWager(w http.ResponseWriter, req *http.Request) error {
-	writeResponse(w, http.StatusNotImplemented, app_errors.ErrorResponse{Code: app_errors.ErrNotImplemented})
+	pageStr := strings.TrimSpace(req.URL.Query().Get("page"))
+	limitStr := strings.TrimSpace(req.URL.Query().Get("limit"))
+	page, limit := 0, 0
+	var err error
+	if pageStr != "" {
+		page, err = strconv.Atoi(pageStr)
+	}
+
+	if limitStr != "" {
+		limit, err = strconv.Atoi(limitStr)
+	}
+
+	if err != nil {
+		log.Printf("get query params err %s", err)
+	}
+
+	request := &dto.ListWagerRequest{
+		Page:  uint32(page),
+		Limit: uint32(limit),
+	}
+
+	wagerList, err := h.wagerService.ListWager(req.Context(), request)
+	if err != nil {
+		writeErrorResponse(w, err)
+		return nil
+	}
+
+	writeResponse(w, 200, wagerList)
 	return nil
 }
 

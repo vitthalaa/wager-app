@@ -15,12 +15,8 @@ func toWagerEntity(req dto.PlaceWagerRequest) *repo.Wager {
 	}
 }
 
-func toWagerDTO(w *repo.Wager) *dto.Wager {
-	if w == nil {
-		return nil
-	}
-
-	wDto := &dto.Wager{
+func toWagerDTO(w repo.Wager) dto.Wager {
+	wDto := dto.Wager{
 		ID:                  w.ID,
 		TotalWagerValue:     w.TotalWagerValue,
 		Odds:                w.Odds,

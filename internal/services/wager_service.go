@@ -38,12 +38,33 @@ func (s *WagerService) PlaceWager(ctx context.Context, req *dto.PlaceWagerReques
 		return nil, err
 	}
 
-	return toWagerDTO(wager), nil
+	wagerDto := toWagerDTO(*wager)
+	return &wagerDto, nil
 }
 
 // ListWager ...
 func (s *WagerService) ListWager(ctx context.Context, req *dto.ListWagerRequest) ([]dto.Wager, error) {
-	panic("not implemented")
+	offset := uint32(0)
+	limit := uint32(10)
+	if req.Limit > 0 {
+		limit = req.Limit
+	}
+
+	if req.Page > 0 {
+		offset = (req.Page - 1) * limit
+	}
+
+	res, err := s.wagerRepo.ListWager(ctx, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	dtoList := make([]dto.Wager, 0, len(res))
+	for _, rs := range res {
+		dtoList = append(dtoList, toWagerDTO(rs))
+	}
+
+	return dtoList, nil
 }
 
 func validatePlaceWagerRequest(req *dto.PlaceWagerRequest) *app_errors.ErrorResponse {

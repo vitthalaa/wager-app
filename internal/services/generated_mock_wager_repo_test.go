@@ -39,6 +39,29 @@ func (_m *MockWagerRepo) CreateWager(ctx context.Context, wager *repo.Wager) (*r
 	return r0, r1
 }
 
+// ListWager provides a mock function with given fields: ctx, offset, limit
+func (_m *MockWagerRepo) ListWager(ctx context.Context, offset uint32, limit uint32) ([]repo.Wager, error) {
+	ret := _m.Called(ctx, offset, limit)
+
+	var r0 []repo.Wager
+	if rf, ok := ret.Get(0).(func(context.Context, uint32, uint32) []repo.Wager); ok {
+		r0 = rf(ctx, offset, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]repo.Wager)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, uint32, uint32) error); ok {
+		r1 = rf(ctx, offset, limit)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // NewMockWagerRepo creates a new instance of MockWagerRepo. It also registers the testing.TB interface on the mock and a cleanup function to assert the mocks expectations.
 func NewMockWagerRepo(t testing.TB) *MockWagerRepo {
 	mock := &MockWagerRepo{}
