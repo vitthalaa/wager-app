@@ -12,7 +12,7 @@
     1. For first time, create a postgres database and put credentials in `.env` file.
         - Example queries for create db and user `./data/temp_create_database.sql`
     2. Also create table using `./data/init_database.sql`
-3. TODO: Verify setup by running integration tests
+3. Verify setup by running integration tests
     - `go test ./integration_tests/ -tags=integration`
 4. TODO: Add Docker
 

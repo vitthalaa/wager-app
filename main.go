@@ -52,11 +52,11 @@ func run() (s *http.Server) {
 
 	// Init handlers
 	wagerHandler := handlers.NewWagersHandler(wagerService)
-	purchasehandler := handlers.NewPurchasesHandler(purchaseService)
+	purchaseHandler := handlers.NewPurchasesHandler(purchaseService)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/wagers", wagerHandler.Handle)
-	mux.HandleFunc("/buy/", purchasehandler.Handle)
+	mux.HandleFunc("/buy/", purchaseHandler.Handle)
 
 	address := fmt.Sprintf(":%d", conf.Port)
 	s = &http.Server{
