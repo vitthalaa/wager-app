@@ -279,6 +279,11 @@ func TestPurchaseService_PurchaseWager(t *testing.T) {
 			mockPurchaseRepo.On("CreatePurchase", ctx, mock.Anything).
 				Return(tc.purchaseRepoResp, tc.purchaseRepoError)
 
+			if tc.input != nil && tc.input.WagerID != 0 {
+				mockPurchaseRepo.On("DeletePurchase", mock.Anything, mock.Anything).
+					Return(nil)
+			}
+
 			mockWagerRepo.On("UpdateWager", ctx, tc.updateWagerRepoReq).
 				Return(tc.updateWagerRepoError)
 
