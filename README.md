@@ -6,10 +6,13 @@ It will use `docker-copose.test.yaml` and `Dockerfile.test` to run integration t
 
 Run following command to run integration test using docker.
 - `docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit --force-recreate`
+  - OR using make: `make docker-verify`
+
   ![](doc/docker_int_screen.png)
 
 ### Run
 - At root of project, run `docker-compose up` or `docker-compose up -d` in detach mode.
+  - OR using make: `make docker-run`
 - **Note**: Recreate volumes if database is not created in container while docker up: `docker-compose up -V`
 
 ## Without Docker
@@ -27,17 +30,18 @@ How to set up and run locally without docker.
 1. Make changes to `.env` values as per your config and requirements.
 2. Setup Database
     1. For first time, create a postgres database and put credentials in `.env` file.
-        - Example queries for create db and user `./data/temp_create_database.sql`
     2. Also create table using `./data/init_database.sql`
 3. Verify setup by running integration tests
     - `go test ./integration_tests/ -tags=integration`
+      - OR run `make integration-test`
 
 ### Run
 - Run application from root `go run main.go`
+  - OR `make run`
 
 #### By build
-1. `go build -o app`
-2. `./app`
+1. `go build -o wager-app` OR `make build`
+2. `./wager-app`
 
 ## Architecture
 #### Directory Structure
