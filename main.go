@@ -44,15 +44,19 @@ func run() (s *http.Server) {
 
 	// Init Repos
 	wagerRepo := repo.NewWagerRepo(conn)
+	purchaseRepo := repo.NewPurchaseRepo(conn)
 
 	// Init Services
 	wagerService := services.NewWagerService(wagerRepo)
+	purchaseService := services.NewPurchaseService(purchaseRepo, wagerRepo)
 
 	// Init handlers
 	wagerHandler := handlers.NewWagersHandler(wagerService)
+	purchasehandler := handlers.NewPurchasesHandler(purchaseService)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/wagers", wagerHandler.Handle)
+	mux.HandleFunc("/buy/", purchasehandler.Handle)
 
 	address := fmt.Sprintf(":%d", conf.Port)
 	s = &http.Server{

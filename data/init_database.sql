@@ -6,7 +6,7 @@ create table if not exists wager (
     selling_price real not null default 0,
     current_selling_price real not null default 0,
     percentage_sold real default null,
-    amount_sold real default null,
+    amount_sold integer default null,
     created_at timestamp default now(),
     updated_at timestamp default null
 );

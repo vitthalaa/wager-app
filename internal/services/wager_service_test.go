@@ -228,9 +228,9 @@ func TestWagerService_ListWager(t *testing.T) {
 						Float64: 50.1,
 						Valid:   true,
 					},
-					AmountSold: sql.NullFloat64{
-						Float64: 50.1,
-						Valid:   true,
+					AmountSold: sql.NullInt32{
+						Int32: 50,
+						Valid: true,
 					},
 					CreatedAt: sql.NullTime{
 						Time:  now,
@@ -263,7 +263,7 @@ func TestWagerService_ListWager(t *testing.T) {
 					SellingPrice:        20.6,
 					CurrentSellingPrice: 40.6,
 					PercentageSold:      50.1,
-					AmountSold:          50.1,
+					AmountSold:          50,
 					PlacedAt:            &now,
 				},
 			},

@@ -79,7 +79,7 @@ func TestWagersHandler_Handle_ListWager_HappyPath(t *testing.T) {
 			SellingPrice:        20.6,
 			CurrentSellingPrice: 40.6,
 			PercentageSold:      50.1,
-			AmountSold:          50.1,
+			AmountSold:          50,
 			PlacedAt:            &now,
 		},
 	}

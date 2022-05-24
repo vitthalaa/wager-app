@@ -21,12 +21,13 @@ type Wager struct {
 	SellingPrice        float32    `json:"selling_price"`
 	CurrentSellingPrice float32    `json:"current_selling_price"`
 	PercentageSold      float32    `json:"percentage_sold"`
-	AmountSold          float32    `json:"amount_sold"`
+	AmountSold          uint32     `json:"amount_sold"`
 	PlacedAt            *time.Time `json:"placed_at"`
 }
 
 // BuyWagerRequest ...
 type BuyWagerRequest struct {
+	WagerID     uint32  `json:"-"`
 	BuyingPrice float32 `json:"buying_price"`
 }
 

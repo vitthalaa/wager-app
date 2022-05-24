@@ -35,14 +35,13 @@ func (h *WagersHandler) Handle(w http.ResponseWriter, req *http.Request) {
 		err = h.doListWager(w, req)
 	default:
 		log.Println("error no 404")
-		writeResponse(w, http.StatusNotFound, app_errors.ErrorResponse{Code: app_errors.ErrNotImplemented})
+		writeResponse(w, http.StatusNotFound, app_errors.ErrorResponse{Code: app_errors.ErrNotFound})
 	}
 
 	if err != nil {
 		log.Println("error {}", err)
 		writeResponse(w, http.StatusInternalServerError, app_errors.ErrorResponse{Code: app_errors.ErrInternalError})
 	}
-
 }
 
 // doPlaceWager places wager
@@ -51,7 +50,7 @@ func (h *WagersHandler) doPlaceWager(w http.ResponseWriter, req *http.Request) e
 	var request dto.PlaceWagerRequest
 	err := decoder.Decode(&request)
 	if err != nil {
-		writeResponse(w, 400, &app_errors.ErrorResponse{Code: app_errors.ErrInvalidBody})
+		writeResponse(w, http.StatusBadRequest, &app_errors.ErrorResponse{Code: app_errors.ErrInvalidBody})
 		return nil
 	}
 
@@ -61,7 +60,7 @@ func (h *WagersHandler) doPlaceWager(w http.ResponseWriter, req *http.Request) e
 		return nil
 	}
 
-	writeResponse(w, 200, wager)
+	writeResponse(w, http.StatusOK, wager)
 	return nil
 }
 
@@ -94,7 +93,7 @@ func (h *WagersHandler) doListWager(w http.ResponseWriter, req *http.Request) er
 		return nil
 	}
 
-	writeResponse(w, 200, wagerList)
+	writeResponse(w, http.StatusOK, wagerList)
 	return nil
 }
 

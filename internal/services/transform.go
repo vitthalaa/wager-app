@@ -24,7 +24,7 @@ func toWagerDTO(w repo.Wager) dto.Wager {
 		SellingPrice:        w.SellingPrice,
 		CurrentSellingPrice: w.CurrentSellingPrice,
 		PercentageSold:      float32(w.PercentageSold.Float64),
-		AmountSold:          float32(w.AmountSold.Float64),
+		AmountSold:          uint32(w.AmountSold.Int32),
 	}
 
 	if w.CreatedAt.Valid {
