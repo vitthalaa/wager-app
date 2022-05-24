@@ -1,0 +1,33 @@
+version: "3"
+
+networks:
+  wager-app-network:
+    driver: bridge
+
+services:
+  database_test:
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - ./data/init_database.sql:/docker-entrypoint-initdb.d/init_database.sql
+    networks:
+      - wager-app-network
+
+  wager-app-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    env_file:
+      - .env
+    depends_on:
+      - database_test
+    ports:
+      - "8080:8080"
+    networks:
+      - wager-app-network

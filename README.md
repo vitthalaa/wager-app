@@ -1,3 +1,20 @@
+# Wager App
+
+## Using Docker
+### Verify docker build using integration tests
+It will use `docker-copose.test.yaml` and `Dockerfile.test` to run integration tests.
+
+Run following command to run integration test using docker.
+- `docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit --force-recreate`
+  ![](doc/docker_int_screen.png)
+
+### Run
+- At root of project, run `docker-compose up` or `docker-compose up -d` in detach mode.
+- **Note**: Recreate volumes if database is not created in container while docker up: `docker-compose up -V`
+
+## Without Docker
+How to set up and run locally without docker.
+
 ### Prerequisites
 - Golang version 1.6 and above
 - Postgres version 14 and above
@@ -14,7 +31,6 @@
     2. Also create table using `./data/init_database.sql`
 3. Verify setup by running integration tests
     - `go test ./integration_tests/ -tags=integration`
-4. TODO: Add Docker
 
 ### Run
 - Run application from root `go run main.go`
@@ -23,7 +39,7 @@
 1. `go build -o app`
 2. `./app`
 
-### Architecture
+## Architecture
 #### Directory Structure
 `./` _Root_
 - `./main.go`: _entry point for app._
